@@ -1,13 +1,49 @@
 import React from 'react'
+import axios from "axios";
+
+import { useMutation } from 'react-query';
+import { domain_server, getUserToken } from '../../Api/peticiones_server';
+import { DataUserTokenSaved } from './LoginMethods';
 
 export const Login = () => {
+
+
+
+
+    // Testing con mutation
+    const mutationToken = useMutation(DataUserTokenSaved => {
+        return axios.post(`${domain_server}/api/auth/login`, DataUserTokenSaved).then(({ data }) => {
+            console.log(data);
+        });
+
+    })
+
+
+
+
+    // Sin mutation
+    const consultarToken = () => {
+        getUserToken({ "citizen_id": "PPt3CW33999444", "password": "123456" }).then(({ success, msg, payload }) => {
+
+            success ?
+                <>
+                    { console.log('ALMACENAR EL TOKEN')}
+                </>
+                :
+                console.log(msg);
+        });
+
+    }
 
 
 
     const handleSubmit = (e) => {
         console.log('submit');
         e.preventDefault();
+
+        consultarToken();
     }
+
 
 
     return (

@@ -6,7 +6,7 @@ export const PublicRutes = ({children}) => {
     const [AuthUserToken, setAuthUserToken] = useState({
         name: '.',
         token: '.',
-        logged: true
+        logged: false
     });
 
 

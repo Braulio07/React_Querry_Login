@@ -7,7 +7,7 @@ export const PrivateRouter = ({ children }) => {
     const [AuthUserToken, setAuthUserToken] = useState({
         name: '.',
         token: '.',
-        logged: true
+        logged: false
     });
 
 
