@@ -20,9 +20,9 @@ export const AppRouter = () => {
                         } />
                         :
                         // Private
-                        <Route key={path} path={path} element={
+                        <Route  key={path} path={path} element={
                             <PublicRutes>
-                                {Component}
+                                {Component }
                             </PublicRutes>
                         }
                         />

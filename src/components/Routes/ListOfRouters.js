@@ -1,4 +1,5 @@
 import { Home } from "../Home/Home";
+import { MovieDetail } from "../Home/MovieDetail";
 import { Login } from "../Login/Login";
 
 
@@ -22,6 +23,11 @@ export const ListOfRoutes =
     {
         path: "/home",
         Component: <Home />,
+        authRequired: true
+    },
+    {
+        path: "/movie-detail/:idMovie",
+        Component: <MovieDetail />,
         authRequired: true
     }
 

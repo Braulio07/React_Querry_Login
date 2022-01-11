@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { TokenLocalStorage } from '../../../Api/TokenLocalStorage';
-import { Home } from '../../Home/Home';
-import { Login } from '../../Login/Login';
 
-export const PrivateRouter =      ({ children }) =>    {
+export const TokenLocalStorage = () => {
 
-    const navegate = useNavigate();
+
     const [AuthUserToken, setAuthUserToken] = useState({
         name: '.',
         token: '.',
         logged: false
     });
 
-  useEffect(() =>  {
+
+    useEffect(() => {
 
         try {
-
+            console.log('entrando a private route');
 
             if (localStorage.getItem('AuthUserToken')) {
-
                 const tokenTemp = JSON.parse(localStorage.getItem('AuthUserToken'));
 
                 setAuthUserToken({
@@ -29,38 +25,22 @@ export const PrivateRouter =      ({ children }) =>    {
                 });
             } else {
 
-
+                console.log('no existe');
                 setAuthUserToken({
                     name: '',
                     token: '',
                     logged: false
                 });
+
+                console.log(AuthUserToken);
             }
 
         } catch (error) {
             console.log(error);
         }
 
-    }, [children])
+    }, [])
 
 
-
-
-
-
-
-
-
-    return (
-        AuthUserToken.logged ?
-            <>
-                {/* user is loged */}
-                {children}
-            </>
-            :
-            <>
-                {/* user is  not loged */}
-                <Login />
-            </>
-    )
+    return (AuthUserToken)
 }
