@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { QueryCache, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { filterMovie, getMovieById, Get_All_Movies_From_Cache } from '../../Api/peticiones_server'
 import { NavBar } from '../NavBar/NavBar'
 import { CardView } from './CardView'
 
@@ -37,37 +39,50 @@ export const MovieDetail = ({ id, title, description, url, fullScreen = false })
 
     const navegate = useNavigate()
     const { idMovie } = useParams();
+    const [MovieSelected2, setMovieSelected2] = useState({
+        id: "",
+        title: "",
+        description: "",
+        url: "",
+    });
+
+
+    // const { data: movieselected, error, isLoading, isSuccess, status } = useQuery(["movie"], getMovieById(parseInt(idMovie)));
 
     useEffect(() => {
 
-        if (idMovie) {
+        console.log(idMovie);
+        getMovieById(parseInt(idMovie)).then(data => {
+            setMovieSelected2({
+                id: data[0].id,
+                title: data[0].title,
+                description: data[0].body,
+                url: data[0].img,
+            })
+        })
+    }, [idMovie])
 
-
-        }
-        // if (!fullScreen) {
-        //     navegate('home')
-        // }
-    }, [])
 
 
 
     return (
         <div >
-
             {
                 idMovie ?
                     <>
                         <NavBar />
                         <Container>
                             <CardView
-                                key={id}
-                                id={id}
-                                title={title}
-                                description={description}
-                                url={url}
-                                fullScreen={fullScreen} />
+                                key={MovieSelected2.id}
+                                id={MovieSelected2.id}
+                                title={MovieSelected2.title}
+                                description={MovieSelected2.description}
+                                url={MovieSelected2.url}
+                                fullScreen={true} />
                             <H1>{title}</H1>
                         </Container>
+
+
                     </>
                     :
                     ""

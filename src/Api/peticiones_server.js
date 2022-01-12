@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useQueryClient } from "react-query";
 import {errorServer} from './messages'
 
 //export const domain_server = process.env.REACT_APP_API || "http://localhost:8000";
@@ -28,6 +29,7 @@ export const getUserToken = async (post) => {
   };
   
 
+
 // debe ir con token
 export const getPostListMovies = async () => {
   const { data } = await axios.get(`${domain_server}${list_movies}`);
@@ -41,6 +43,24 @@ export const getMovieById = async (movieId) => {
    let movieselected = await movies.filter(movie => movie.id === movieId);
   return movieselected;
 };
+
+
+export const filterMovie = async (arrayTmp, word) => {
+
+  try {
+    return await arrayTmp.filter(movie  => movie.title.toLocaleLowerCase().includes(word)); 
+  } catch (error) {
+    return []
+  }
+
+
+};
+
+
+
+
+
+
 
 
 

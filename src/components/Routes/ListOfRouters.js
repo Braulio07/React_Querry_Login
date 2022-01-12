@@ -21,7 +21,7 @@ export const ListOfRoutes =
         authRequired: true
     },
     {
-        path: "/home",
+        path: "/home/:arrayMovie",
         Component: <Home />,
         authRequired: true
     },

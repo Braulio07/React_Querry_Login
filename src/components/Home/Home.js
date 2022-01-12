@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import { QueryCache, useQuery, useQueryClient } from 'react-query'
+import { useParams } from 'react-router-dom'
 import { getPostListMovies } from '../../Api/peticiones_server'
 import { NavBar } from '../NavBar/NavBar'
 import { CardView } from './CardView'
@@ -8,7 +9,19 @@ import { ContainerHome, ContentFooter, ContentLef_Home, ContentRigt_Home, H2Home
 
 export const Home = () => {
 
-    const { data: movies, error, isLoading, isSuccess, status } = useQuery(["todo"], getPostListMovies);
+    const { data: movies, error, isLoading, isSuccess, status } = useQuery(["ALlMovies"], getPostListMovies);
+    const queryClient = useQueryClient()
+    const moviesCache = queryClient.getQueryData('ALlMovies')
+
+    const useparams = useParams();
+
+    useEffect(() => {
+        if (useparams.arrayMovie) {
+           console.log(useparams.arrayMovie);
+           
+          // movies = useparams.arrayMovie;
+        }
+    }, [useparams.arrayMovie])
 
 
 
@@ -20,6 +33,7 @@ export const Home = () => {
         );
     }
 
+
     if (error) {
         return (
             <section className="alert alert-danger">
@@ -30,19 +44,17 @@ export const Home = () => {
 
 
 
+    if (isSuccess) {
+        // const query33 = QueryCache.find('ALlMovies')
+    }
 
 
 
-
-
-
-
-
-
-    // vista
     return (
 
-        <>
+
+        <div>
+
 
             <NavBar />
             <ContainerHome >
@@ -52,25 +64,18 @@ export const Home = () => {
 
                 {/* Contenido */}
                 <ContentLef_Home>
-
-
-
                     {isSuccess && movies ?
                         <>
                             {
-                                movies.map(({ id, title, img, body: description }) => {
+                                moviesCache.map(({ id, title, img, body: description }) => {
 
-                                    return <>
-
-                                        <CardView
-                                            key={id}
-                                            id={id}
-                                            title={title}
-                                            url={img}
-                                            description={description} />
-                                    </>
+                                    return <CardView
+                                        key={id}
+                                        id={id}
+                                        title={title}
+                                        url={img}
+                                        description={description} />
                                 })
-
                             }
                         </>
                         :
@@ -79,15 +84,10 @@ export const Home = () => {
                 </ContentLef_Home>
 
 
-
                 {/* Rigt Sidebar */}
                 <ContentRigt_Home>
                     <H2Home color='white' size="22px" className='centerContent'>Recomendadas</H2Home>
                 </ContentRigt_Home>
-
-
-
-
 
             </ContainerHome>
 
@@ -96,6 +96,6 @@ export const Home = () => {
             <ContentFooter>
                 <H2Home color='white' size="22px" className='centerContent'>Footer Information </H2Home>
             </ContentFooter>
-        </>
+        </div>
     )
 }

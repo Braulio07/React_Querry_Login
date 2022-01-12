@@ -8,11 +8,11 @@ import { MovieDetail } from './MovieDetail'
 
 const Container = styled.div`
     display: grid;
-    max-width:  ${props => props.fullScreen ? "1000px" : "400px"} ; 
-    max-height: ${props => props.fullScreen ? "1000px" : "430px"} ; 
+    max-width:  ${props => props.fullScreen ? "730px" : "400px"} ; 
+    max-height: ${props => props.fullScreen ? "430px" : "430px"} ; 
 
-    min-width:  ${props => props.fullScreen ? "100%" : "400px"} ; 
-    min-height: ${props => props.fullScreen ? "100%" : "430px"} ; 
+    min-width:  ${props => props.fullScreen ? "70%" : "400px"} ; 
+    min-height: ${props => props.fullScreen ? "300px" : "430px"} ; 
 
     background-color: #494848c6; 
     border-radius: 10px;
@@ -22,15 +22,15 @@ const Container = styled.div`
 
     margin: auto;
 
-    grid-template-columns:  ${props => props.fullScreen ? '1fr 1fr 1fr 1fr' : '1fr'};
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns:  ${props => props.fullScreen ? '1fr 1fr 1fr' : '1fr'};
+    grid-template-rows: 2fr 1fr 1fr;
 
   
     grid-template-areas:   ${props => props.fullScreen ?
-        `"H1 H1 H1  " 
-     "IMAGE P  P" 
-     "IMAGE P P"`
-        :
+    `"H1 H1 H1" 
+     "IMAGE IMAGE P" 
+     "IMAGE IMAGE P"`
+        :   
         `"H1" "IMAGE" "IMAGE" "Button"`}      
     ;
 
@@ -43,6 +43,8 @@ const Container = styled.div`
 /* responsive xs */
 @media screen and (min-width: 1px) and (max-width: 767px) {
     padding: 3px;
+    max-width:  ${props => props.fullScreen ? "430px" : "400px"} ; 
+    max-height: ${props => props.fullScreen ? "430px" : "430px"} ; 
 
 }
 /* responsive sm  */
@@ -63,7 +65,7 @@ const Container = styled.div`
 
 const H1 = styled.h1`
 color: white;
-margin-bottom: 10px;
+margin-bottom: ${props => props.fullScreen ? "10px" : "10px"} ; 
 font-size: 20px;
 justify-content: center;
 text-align: center;
@@ -90,15 +92,15 @@ padding: 5px;
 margin-right: 10px;
 grid-area: IMAGE;
 
-min-width:  ${props => props.fullScreen ? "100%" : "340px"} ; 
-min-height: ${props => props.fullScreen ? "100%" : "340px"} ; 
+min-width:  ${props => props.fullScreen ? "700" : "340px"} ; 
+min-height: ${props => props.fullScreen ? "700" : "340px"} ; 
 
 /* responsive xs */
 @media screen and (min-width: 1px) and (max-width: 767px) {
 max-width: 300px;
 max-height:300px;
-
 }
+
 /* responsive sm  */
 @media screen and (min-width: 768px) and (max-width: 991px) {
 max-width: 300px;
@@ -110,7 +112,6 @@ max-height:300px;
     /* grid-template-columns: repeat(2, 1fr);
 } */
 }
-
 `
 
 
@@ -127,17 +128,17 @@ export const CardView = ({ id = "", title = "", url = "", description = "", full
 
     const handleViewMovie = (idMovie) => {
         getMovieById(idMovie).then(data => {
-            let {id, img, title, body} = data[0];
+            let { id, img, title, body } = data[0];
 
 
-            
-        //    <MovieDetail 
-        //         id={id}
-        //         title={title}
-        //         description={body}
-        //         url={img}
-        //         fullScreen={true}
-        //         /> 
+
+            //    <MovieDetail 
+            //         id={id}
+            //         title={title}
+            //         description={body}
+            //         url={img}
+            //         fullScreen={true}
+            //         /> 
 
         })
 
@@ -145,26 +146,22 @@ export const CardView = ({ id = "", title = "", url = "", description = "", full
     return (
         <>
             {
-
                 fullScreen ?
                     <Container fullScreen={true} >
-                        <H1>{title} </H1>
+                        <H1 fullScreen={true}>{title} </H1>
                         <P>{description}</P>
                         <Imagen fullScreen={true} src={url} />
                     </Container>
                     :
-
-                    <Container   >
+                    <Container>
                         <H1>{title} </H1>
                         <Imagen src={url} />
 
                         <NavLink
-                            to={`/movie-detail/${"TESTEANDO desde card"}`}
-                            onClick={() => { handleViewMovie(1)}}>  
-                            
-                            SHOW  </NavLink>
+                            to={`/movie-detail/${id}`}>
+                            SHOW
+                        </NavLink>
                     </Container>
-
             }
 
 
