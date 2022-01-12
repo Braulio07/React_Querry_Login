@@ -5,6 +5,10 @@ import styled from 'styled-components';
 import { filterMovie } from '../../Api/peticiones_server';
 import { useQueryClient } from 'react-query';
 
+import { useSelector, useDispatch } from 'react-redux'
+import { getMovies, insertMovies } from '../../store/Movies/moviesSlice';
+
+
 export const ENLACE = styled.span`
 font-size: 16px;
 font-weight: bold;
@@ -19,8 +23,11 @@ font-weight: bold;
 
 
 
+
+
 export const NavBar = () => {
 
+    const dispatch = useDispatch();
 
     const txtSearch = useRef('');
     const navegate = useNavigate();
@@ -38,35 +45,18 @@ export const NavBar = () => {
     }
 
 
-    const filter_Movies = async (word) => {
 
-        let movieFiltered = await filterMovie(moviesCache, word).then(data => {
-            return data;
-        })
+
+    const handleViewMovie = async (e) => {
+        e.preventDefault()
+
+        let word_Filter = txtSearch.current.value;
+        let movieFiltered = await filterMovie(moviesCache, word_Filter).then(data => data);
 
         if (movieFiltered.length > 0) {
-               // PROCEDIMIENTO
-               navegate(`/home/${movieFiltered}`)
-            // console.log(movieFiltered[0].title);
-        }else{
-            console.log([]);
+            // DISPARAMOS DISPATCH LLENAR MOVIES
+            dispatch(getMovies(movieFiltered));
         }
-
-    }
-
-
-
-
-
-    const handleViewMovie = (e) => {
-        e.preventDefault()
-        filter_Movies(txtSearch.current.value)
-
-        // if (txtSearch.current.value) {
-        //     navegate(`/movie-detail/${txtSearch.current.value}`)
-        // }
-
-
     }
 
 
@@ -89,13 +79,13 @@ export const NavBar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="#">Home</a>
+                            <NavLink to="/home" className="nav-link active" aria-current="page" >Home</NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Series Tv</a>
+                            <NavLink to="/home" className="nav-link active" aria-current="page" >Series Tv</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to={`movie-detail/"PROBANDO ENVIO"`}>Films</NavLink>
+                            <NavLink to="/home" className="nav-link active" aria-current="page" >Films</NavLink>
                         </li>
                     </ul>
 
@@ -103,6 +93,7 @@ export const NavBar = () => {
                     <form className="d-flex me-auto mb-6 mb-lg-0" onSubmit={(e) => handleViewMovie(e)}>
                         <input
                             ref={txtSearch}
+                            onChange={handleViewMovie}
                             className="form-control me-2 mb-2 mb-lg-0" type="search" placeholder="Search" aria-label="Search" />
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>

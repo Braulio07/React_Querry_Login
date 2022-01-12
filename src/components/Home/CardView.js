@@ -79,8 +79,6 @@ font-size: 14px;
 grid-area: P;
 `
 
-
-
 const Imagen = styled.img`
 max-width: 340px;
 max-height: 340px;
@@ -123,15 +121,14 @@ const Button = styled.button`
     grid-area: Button;
 `
 
+
+
 export const CardView = ({ id = "", title = "", url = "", description = "", fullScreen = false }) => {
 
 
     const handleViewMovie = (idMovie) => {
         getMovieById(idMovie).then(data => {
             let { id, img, title, body } = data[0];
-
-
-
             //    <MovieDetail 
             //         id={id}
             //         title={title}
@@ -141,6 +138,9 @@ export const CardView = ({ id = "", title = "", url = "", description = "", full
             //         /> 
 
         })
+
+
+
 
     }
     return (

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { QueryCache, useQuery, useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { getPostListMovies } from '../../Api/peticiones_server'
@@ -7,22 +7,21 @@ import { NavBar } from '../NavBar/NavBar'
 import { CardView } from './CardView'
 import { ContainerHome, ContentFooter, ContentLef_Home, ContentRigt_Home, H2Home } from './HomeStyled'
 
-export const Home = () => {
 
+// get from redux
+import { useSelector, useDispatch } from 'react-redux'
+import { getMovies } from '../../store/Movies/moviesSlice';
+
+
+export const Home =  () => {
+
+    // get from redux
+    const dispatch = useDispatch();
+    const { arrayMovies: arrayMovies_Redux } = useSelector(state => state.moviesS);
+
+    // get from server:  reactQuerry
     const { data: movies, error, isLoading, isSuccess, status } = useQuery(["ALlMovies"], getPostListMovies);
     const queryClient = useQueryClient()
-    const moviesCache = queryClient.getQueryData('ALlMovies')
-
-    const useparams = useParams();
-
-    useEffect(() => {
-        if (useparams.arrayMovie) {
-           console.log(useparams.arrayMovie);
-           
-          // movies = useparams.arrayMovie;
-        }
-    }, [useparams.arrayMovie])
-
 
 
     if (isLoading) {
@@ -33,7 +32,6 @@ export const Home = () => {
         );
     }
 
-
     if (error) {
         return (
             <section className="alert alert-danger">
@@ -42,10 +40,10 @@ export const Home = () => {
         );
     }
 
-
-
     if (isSuccess) {
-        // const query33 = QueryCache.find('ALlMovies')
+        if (arrayMovies_Redux.length <= 0) {
+            dispatch(getMovies(movies))
+        }
     }
 
 
@@ -61,13 +59,12 @@ export const Home = () => {
 
                 <H2Home color='white' size="28px" className='centerContent'>Listado de Peliculas</H2Home>
 
-
                 {/* Contenido */}
                 <ContentLef_Home>
                     {isSuccess && movies ?
                         <>
                             {
-                                moviesCache.map(({ id, title, img, body: description }) => {
+                             arrayMovies_Redux.map(({ id, title, img, body: description }) => {
 
                                     return <CardView
                                         key={id}
@@ -99,3 +96,7 @@ export const Home = () => {
         </div>
     )
 }
+
+
+
+    // const moviesCache = queryClient.getQueryData('ALlMovies')
