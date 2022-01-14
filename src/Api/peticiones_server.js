@@ -5,8 +5,7 @@ import {errorServer} from './messages'
 //export const domain_server = process.env.REACT_APP_API || "http://localhost:8000";
 export const domain_server = process.env.REACT_APP_API || "https://sisboa.net";
 const list_movies = "/database/dbMovies.json";
-
-
+const token_link = "/public/api/auth/login";
 
 
 
@@ -14,8 +13,7 @@ const list_movies = "/database/dbMovies.json";
 // GETTING TOKEN
 export const getUserToken = async (post) => {
     try {
-      const { data } = await axios.post(`${domain_server}/public/api/auth/login`, post)
-      // const { data } = await axios.post(`${domain_server}/api/auth/login`, post)
+      const { data } = await axios.post(`${domain_server}${token_link}`, post)
       .catch(error => console.log(
         error
         // {"error": "Error en conexion"}
@@ -30,12 +28,13 @@ export const getUserToken = async (post) => {
   
 
 
-// debe ir con token
+// debe ser consultada token en el backend
 export const getPostListMovies = async () => {
   const { data } = await axios.get(`${domain_server}${list_movies}`);
   const {movies} = data;
   return movies;
 };
+
 
 export const getMovieById = async (movieId) => {
   const { data } = await axios.get(`${domain_server}${list_movies}`);
@@ -46,7 +45,6 @@ export const getMovieById = async (movieId) => {
 
 
 export const filterMovie = async (arrayTmp, word) => {
-
   try {
     return await arrayTmp.filter(movie  => movie.title.toLocaleLowerCase().includes(word)); 
   } catch (error) {

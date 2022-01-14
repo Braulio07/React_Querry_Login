@@ -17,7 +17,7 @@ export const Container = styled.div`
 export const ContainerLogin = styled.div`
     text-align: left;
     margin:    auto;
-    padding: 10%;
+    padding: 7%;
     max-width: 1100px;
     max-height: 1000px;
     padding-bottom: 170px;

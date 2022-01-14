@@ -47,16 +47,11 @@ grid-template-columns: repeat(1, 1fr);
 
 
 export const ContentRigt_Home = styled.div`
-display: grid;
-display: flex;
-/* background-color: #323643; */
-/* color: white; */
-padding: 10px;
 grid-area: sidebarR;
-justify-content: center;
+background-color: #323643;
+padding: 10px;
 border: solid white 0.5px ;
 margin-right: 10px;
-
 
 
 /* responsive xs */
@@ -82,6 +77,25 @@ export const H2Home = styled.h1`
     font-size: ${props => props.size};
     margin-top: 10px;
 `    
+
+export const SpanHome = styled.h1`
+    grid-area: SpanHome;
+    color: ${props => props.color};
+    font-size: ${props => props.size};
+    margin: 4px;
+    margin-top: 10px;
+`    
+
+
+
+
+
+
+
+
+
+
+
 
 
 export const ContentFooter = styled.div`

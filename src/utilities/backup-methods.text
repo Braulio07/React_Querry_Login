@@ -1,0 +1,15 @@
+
+
+
+
+//usando el store 
+// sin persistor:  :(
+
+// import { configureStore } from '@reduxjs/toolkit'
+
+// export const store = configureStore({
+//     reducer: {
+//         counterP: counterSlice,
+//         moviesS: moviesSlice
+//     }
+// })
